@@ -1,0 +1,122 @@
+<div class="container">
+  <h4>Log Manager Client Configuration</h4>
+
+  <table *ngIf="!editMode" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Client Configuration</th>
+        <th>
+          <button class="btn btn-default" (click)="edit()">edit</button>
+          <button class="btn btn-danger"
+                  *ngIf="config.id != null"
+                  (click)="delete($event)">delete</button>
+        </th>
+      </tr>
+    </thead>
+
+    <tr>
+      <td class="col-md-2">id:</td>
+      <td class="col-md-10">{{ config.id }}</td>
+    </tr>
+
+    <tr>
+      <td class="col-md-2">name:</td>
+      <td class="col-md-10">{{ config.name }}</td>
+    </tr>
+
+    <tr>
+      <td class="col-md-2">web host:</td>
+      <td class="col-md-10">{{ config.webHost }}</td>
+    </tr>
+  </table>
+
+  <div *ngIf="editMode" class="table table-striped">
+    <h5>Edit Client Configuration -- {{ config.name || "(no name configured)" }}</h5>
+
+    <form role="form"
+          (submit)="save($event)">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Client Configuration</th>
+            <th>
+              <button class="btn btn-default" type="submit">
+                <span *ngIf="config.id != null">Save</span>
+                <span *ngIf="config.id == null">Create</span>
+              </button>
+              <button class="btn btn-default" (click)="view($event)">Cancel</button>
+            </th>
+          </tr>
+        </thead>
+
+        <tr>
+          <td class="col-md-2">id:</td>
+          <td class="col-md-10">{{ config.id }}</td>
+        </tr>
+
+        <tr>
+          <td class="col-md-2">name:</td>
+          <td class="col-md-4">
+            <input class="form-control"
+                   [(ngModel)]="config.name"
+                   type="text" />
+          </td>
+        </tr>
+        <tr>
+          <td class="col-md-2">web host:</td>
+          <td class="col-md-4">
+            <input class="form-control"
+                   [(ngModel)]="config.webHost"
+                   type="text" />
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th colspan="2">Query Configuration</th>
+      </tr>
+    </thead>
+
+    <tr>
+      <td class="col-md-2">id:</td>
+      <td class="col-md-10">{{ config.queryConfig?.id }}</td>
+    </tr>
+
+    <tr>
+      <td class="col-md-2">query string:</td>
+      <td class="col-md-10">{{ config.queryConfig?.queryString }}</td>
+    </tr>
+  </table>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th colspan="2">Connection Configuration</th>
+      </tr>
+    </thead>
+    <tr>
+      <td class="col-md-2">id:</td>
+      <td class="col-md-10">{{ config.connectionConfig?.id }}</td>
+    </tr>
+
+    <tr>
+      <td class="col-md-2">host:</td>
+      <td class="col-md-10">{{ config.connectionConfig?.host }}</td>
+    </tr>
+
+    <tr>
+      <td class="col-md-2">username:</td>
+      <td class="col-md-10">{{ config.connectionConfig?.authContext?.username }}</td>
+    </tr>
+
+    <tr>
+      <td class="col-md-2">password:</td>
+      <td class="col-md-10">{{ config.connectionConfig?.authContext?.password }}</td>
+    </tr>
+  </table>
+
+</div>

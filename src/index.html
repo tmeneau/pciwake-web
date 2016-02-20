@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <base href="/">
+    <title>PCI Wake | Web Client</title>
+
+    <link rel="stylesheet" href="css/app.css">
+
+    <script src="lib/es6-shim.min.js"></script>
+    <script src="lib/system-polyfills.js"></script>
+
+    <script src="lib/angular2-polyfills.js"></script>
+    <script src="lib/system.src.js"></script>
+    <script src="lib/Rx.js"></script>
+    <script src="lib/angular2.dev.js"></script>
+    <script src="lib/router.dev.js"></script>
+    <script src="lib/moment.min.js"></script>
+    <script src="lib/http.dev.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ng2-bootstrap/1.0.3/ng2-bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- 2. Configure SystemJS -->
+    <script>
+      System.config({
+        packages: {
+          app: {
+            format: 'register',
+            defaultExtension: 'js',
+          },
+          lib: {
+            main: "ng2-bs3-modal.js",
+            format: "cjs",
+            defaultExtension: "js"
+          }
+        },
+        map: {
+          moment: 'lib/moment.min.js',
+          "ng2-bs3-modal": "lib/ng2-bs3-modal.js",
+        }
+      });
+      System.import('app/main')
+            .then(null, console.error.bind(console));
+    </script>
+
+  </head>
+
+  <!-- 3. Display the application -->
+  <body>
+    <div class="container">
+      <h2>PCI Wake Web Client</h2>
+      <pciwake>Loading...</pciwake>
+    </div>
+  </body>
+
+</html>

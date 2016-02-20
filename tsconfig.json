@@ -1,0 +1,48 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "system",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "removeComments": false,
+    "noImplicitAny": false,
+    "rootDir": "./src/ts",
+    "outDir": "./dist/app"
+  },
+  "compileOnSave": false,
+  "filesGlob": [
+    "./src/ts/**/*.ts",
+    "./typings/**/*.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "node_modules/**/*",
+    "./typings/main",
+    "./typings/main/**/*",
+    "./typings/main.d.ts"
+  ],
+  "files": [
+    "./src/ts/component/app.component.ts",
+    "./src/ts/component/dashboard.component.ts",
+    "./src/ts/component/login.component.ts",
+    "./src/ts/component/managerconfig.component.ts",
+    "./src/ts/component/managerconfigs.component.ts",
+    "./src/ts/directive/auth.directive.ts",
+    "./src/ts/http/http.overrides.ts",
+    "./src/ts/main.ts",
+    "./src/ts/model/deserializable.ts",
+    "./src/ts/model/logmanager.interface.ts",
+    "./src/ts/service/authentication.service.ts",
+    "./src/ts/service/config.service.ts",
+    "./src/ts/service/login.service.ts",
+    "./src/ts/service/logmanager.service.ts",
+    "./typings/browser.d.ts",
+    "./typings/browser/ambient/es6-shim/es6-shim.d.ts",
+    "./typings/browser/definitions/moment/moment.d.ts"
+  ],
+  "atom": {
+    "rewriteTsconfig": true
+  }
+}

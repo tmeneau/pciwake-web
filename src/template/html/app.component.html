@@ -1,0 +1,25 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav" *ngIf="authService.isAuthenticated()">
+        <li [class.active]="isActive('/home')">
+          <a [routerLink]="['Home']">Home</a>
+        </li>
+        <li [class.active]="isActive('/logmanager')">
+          <a [routerLink]="['Log Manager']">Log Manager</a>
+        </li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"
+               *ngIf="!authService.isAuthenticated()"
+               (click)="login($event)">Login</a></li>
+        <li><a href="#" *ngIf="authService.isAuthenticated()">Logout</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+
+  </div><!-- /.container-fluid -->
+</nav>
+<login-form></login-form>
+<router-outlet></router-outlet>
