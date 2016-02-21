@@ -1,4 +1,4 @@
-import { Deserializable } from "./deserializable";
+import { Deserializable } from "../util/deserializable";
 
 export class AuthContext implements Deserializable<AuthContext> {
   public id: number;
@@ -24,33 +24,27 @@ export class ConnectionConfig implements Deserializable<ConnectionConfig> {
   }
 }
 
-export class GraylogQueryConfig implements Deserializable<GraylogQueryConfig> {
+export abstract class QueryConfig implements Deserializable<QueryConfig> {
   public id: number;
-  public queryString: string;
-
-  fromJson(json: Object): GraylogQueryConfig {
-    this.id = json['id'];
-    this.queryString = json['queryString'];
-    return this;
-  }
+  abstract fromJson(json: Object): QueryConfig;
 }
 
-export class GraylogClientConfig implements Deserializable<GraylogClientConfig> {
-  public id: number;
-  public name: string;
-  public connectionConfig: ConnectionConfig;
-  public queryConfig: GraylogQueryConfig;
-  public webHost: string;
-  private _class: string = "com.xetus.pci.wake.manager.graylog.GraylogClientConfig";
+export abstract class LogManagerClientConfig<Q extends QueryConfig>
+                      implements Deserializable<LogManagerClientConfig<Q>> {
+  public id: number
+  public name: string
+  public connectionConfig: ConnectionConfig
+  public queryConfig: Q
+  _class: string; // subclasses must define
 
-  fromJson(json: Object): GraylogClientConfig {
+  abstract newQueryConfig(): Q;
+
+  fromJson(json: Object): LogManagerClientConfig<Q> {
     this.id = json['id'];
     this.name = json['name'];
-    this.webHost = json['webHost'];
     this.connectionConfig = new ConnectionConfig()
                               .fromJson(json['connectionConfig']);
-    this.queryConfig = new GraylogQueryConfig()
-                              .fromJson(json['queryConfig']);
+    this.queryConfig = <Q> this.newQueryConfig().fromJson(json['queryConfig']);
     return this;
   }
 }

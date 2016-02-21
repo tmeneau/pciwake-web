@@ -5,7 +5,9 @@
       <logmanager-config *ngIf="selectedConfig.id == config.id"
                          [config]="config"></logmanager-config>
   -->
-<div class="list-group">
+
+<div class="text-center" *ngIf="isLoading">Loading...</div>
+<div class="list-group" *ngIf="!isLoading">
   <a href="#"
       *ngFor="#config of configs"
       class="list-group-item"

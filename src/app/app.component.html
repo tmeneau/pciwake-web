@@ -15,7 +15,9 @@
         <li><a href="#"
                *ngIf="!authService.isAuthenticated()"
                (click)="login($event)">Login</a></li>
-        <li><a href="#" *ngIf="authService.isAuthenticated()">Logout</a></li>
+        <li><a href="#"
+               *ngIf="authService.isAuthenticated()"
+               (click)="logout($event)">Logout</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
 

@@ -2,8 +2,8 @@ import { Component, Injectable }  from 'angular2/core';
 import { Observable }             from 'rxjs/observable';
 import { Http }                   from 'angular2/http';
 
-import { Config }                 from './config.service';
-import { GraylogClientConfig }    from '../model/logmanager.interface';
+import { Config }                 from '../config/config.service';
+import { GraylogClientConfig }    from './graylog/graylog.interface';
 
 @Injectable()
 export class GraylogClientConfigService {
@@ -26,7 +26,6 @@ export class GraylogClientConfigService {
                          });
                        }
                        this._configs = result;
-                       console.log("result: ", result);
                        return this._configs;
                      });
   }
@@ -44,6 +43,14 @@ export class GraylogClientConfigService {
   }
 
   createClientConfig(config: GraylogClientConfig): Observable<GraylogClientConfig> {
+    if (config.connectionConfig == null || config.connectionConfig.id == null) {
+      throw Error("Connection Config must not be null");
+    }
+
+    if (config.queryConfig == null || config.connectionConfig.id == null) {
+      throw Error("Query Config must not be null");
+    }
+  
     let obs: Observable<GraylogClientConfig> = this._http.post(
             this._config.pciwakeHost + GraylogClientConfigService.ENDPOINT,
             JSON.stringify(config)
@@ -79,7 +86,6 @@ export class GraylogClientConfigService {
        .map(res => res.json());
 
     obs.subscribe((value) => {
-                    console.log("result", value);
                     this._configs = this._configs.filter((cached) => {
                       return cached.id != config.id;
                     });

@@ -1,21 +1,21 @@
-import { Component, ViewChild }                  from 'angular2/core';
+import { Component, ViewChild }       from 'angular2/core';
 import { RouteConfig,
          ROUTER_DIRECTIVES,
          ROUTER_PROVIDERS,
          Location }                   from 'angular2/router';
 import { Http, HTTP_PROVIDERS }       from 'angular2/http'
 
-import { GraylogClientConfig }        from '../model/logmanager.interface';
+import { DashboardComponent }         from './components/dashboard/dashboard.component'
 
-import { LoginForm }                  from './login.component';
-import { Dashboard }                  from './dashboard.component';
-import { GraylogManagerConfigs }      from './managerconfigs.component';
+import { GraylogManagerConfigs }      from './shared/logmanager/managerconfigs.component';
+import { GraylogClientConfigService } from './shared/logmanager/logmanager.service';
 
-import { Config }                     from '../service/config.service';
-import { APIRequestOptions }          from "../http/http.overrides";
+import { AuthenticationService }      from './shared/auth/auth.service';
+import { LoginForm }                  from './shared/auth/login.component';
+import { APIRequestOptions }          from './shared/rest/http.overrides';
 
-import { AuthenticationService }      from '../service/authentication.service';
-import { GraylogClientConfigService } from '../service/logmanager.service';
+import { Config }                     from './shared/config/config.service';
+
 
 @Component({
   selector: 'pciwake',
@@ -27,14 +27,13 @@ import { GraylogClientConfigService } from '../service/logmanager.service';
     AuthenticationService,
     APIRequestOptions
   ],
-  templateUrl: 'template/html/app.component.html',
-  styleUrls: ['template/css/app.component.css']
+  templateUrl: 'app/app.component.html'
 })
 @RouteConfig([
   {
     path: "/home",
     name: "Home",
-    component: Dashboard,
+    component: DashboardComponent,
     useAsDefault: true
   },
   {
@@ -45,9 +44,10 @@ import { GraylogClientConfigService } from '../service/logmanager.service';
 ])
 export class App {
   @ViewChild(LoginForm) loginForm: LoginForm;
+
   constructor(private _location: Location,
-              public authService: AuthenticationService) {
-  }
+              public authService: AuthenticationService) {}
+
   // true on a path match, false for the rest
   isActive(path) {
     return this._location.path().indexOf(path) > -1;
@@ -58,5 +58,12 @@ export class App {
       event.preventDefault();
     }
     this.loginForm.open();
+  }
+
+  logout(event?) {
+    if (event) {
+      event.preventDefault();
+    }
+    this.loginForm.logout();
   }
 }

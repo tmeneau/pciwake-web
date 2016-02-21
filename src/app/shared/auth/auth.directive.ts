@@ -1,6 +1,6 @@
 import {Directive}                           from 'angular2/core';
-import {AuthenticationService}               from '../service/authentication.service';
-import {LoginForm}                           from '../component/login.component';
+import {AuthenticationService}               from './auth.service';
+import {LoginForm}                           from './login.component';
 import {ROUTER_DIRECTIVES, Router, Location} from "angular2/router";
 
 /*
@@ -14,7 +14,6 @@ export class ProtectedDirective {
               private router:Router,
               private location:Location) {
     if (!authService.isAuthenticated()) {
-      this.location.replaceState('/');
       this.router.navigate(['Home']);
     }
   }

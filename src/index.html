@@ -5,23 +5,24 @@
     <base href="/">
     <title>PCI Wake | Web Client</title>
 
-    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="assets/css/app.css">
 
-    <script src="lib/es6-shim.min.js"></script>
-    <script src="lib/system-polyfills.js"></script>
+    <script src="assets/libs/es6-shim.min.js"></script>
+    <script src="assets/libs/system-polyfills.js"></script>
 
-    <script src="lib/angular2-polyfills.js"></script>
-    <script src="lib/system.src.js"></script>
-    <script src="lib/Rx.js"></script>
-    <script src="lib/angular2.dev.js"></script>
-    <script src="lib/router.dev.js"></script>
-    <script src="lib/moment.min.js"></script>
-    <script src="lib/http.dev.js"></script>
+    <script src="assets/libs/angular2-polyfills.js"></script>
+    <script src="assets/libs/system.src.js"></script>
+    <script src="assets/libs/Rx.js"></script>
+    <script src="assets/libs/angular2.dev.js"></script>
+    <script src="assets/libs/router.dev.js"></script>
+    <script src="assets/libs/moment.min.js"></script>
+    <script src="assets/libs/http.dev.js"></script>
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ng2-bootstrap/1.0.3/ng2-bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.js"></script>
+
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- 2. Configure SystemJS -->
@@ -30,17 +31,17 @@
         packages: {
           app: {
             format: 'register',
-            defaultExtension: 'js',
+            defaultExtension: 'js'
           },
-          lib: {
-            main: "ng2-bs3-modal.js",
+          "assets/libs/ng2-bs3-modal/": {
+            main: "dist/ng2-bs3-modal.js",
             format: "cjs",
             defaultExtension: "js"
           }
         },
         map: {
-          moment: 'lib/moment.min.js',
-          "ng2-bs3-modal": "lib/ng2-bs3-modal.js",
+          moment: 'libs/moment.min.js',
+          "ng2-bs3-modal": "assets/libs/ng2-bs3-modal/"
         }
       });
       System.import('app/main')

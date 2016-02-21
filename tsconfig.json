@@ -13,8 +13,9 @@
   },
   "compileOnSave": false,
   "filesGlob": [
-    "./src/ts/**/*.ts",
-    "./typings/**/*.d.ts"
+    "./src/app/**/*.ts",
+    "./typings/**/*.d.ts",
+    "./node_modules/ng2-bs3-modal/dist/**/*.d.ts"
   ],
   "exclude": [
     "node_modules",
@@ -24,23 +25,29 @@
     "./typings/main.d.ts"
   ],
   "files": [
-    "./src/ts/component/app.component.ts",
-    "./src/ts/component/dashboard.component.ts",
-    "./src/ts/component/login.component.ts",
-    "./src/ts/component/managerconfig.component.ts",
-    "./src/ts/component/managerconfigs.component.ts",
-    "./src/ts/directive/auth.directive.ts",
-    "./src/ts/http/http.overrides.ts",
-    "./src/ts/main.ts",
-    "./src/ts/model/deserializable.ts",
-    "./src/ts/model/logmanager.interface.ts",
-    "./src/ts/service/authentication.service.ts",
-    "./src/ts/service/config.service.ts",
-    "./src/ts/service/login.service.ts",
-    "./src/ts/service/logmanager.service.ts",
+    "./src/app/app.component.ts",
+    "./src/app/components/dashboard/dashboard.component.ts",
+    "./src/app/main.ts",
+    "./src/app/shared/auth/auth.directive.ts",
+    "./src/app/shared/auth/auth.service.ts",
+    "./src/app/shared/auth/login.component.ts",
+    "./src/app/shared/config/config.service.ts",
+    "./src/app/shared/logmanager/graylog/graylog.interface.ts",
+    "./src/app/shared/logmanager/graylog/graylogconfigview.component.ts",
+    "./src/app/shared/logmanager/logmanager.interface.ts",
+    "./src/app/shared/logmanager/logmanager.service.ts",
+    "./src/app/shared/logmanager/managerconfigs.component.ts",
+    "./src/app/shared/rest/http.overrides.ts",
+    "./src/app/shared/rest/rest.interface.ts",
+    "./src/app/shared/util/deserializable.ts",
     "./typings/browser.d.ts",
     "./typings/browser/ambient/es6-shim/es6-shim.d.ts",
-    "./typings/browser/definitions/moment/moment.d.ts"
+    "./typings/browser/definitions/moment/moment.d.ts",
+    "./node_modules/ng2-bs3-modal/dist/components/modal-body.d.ts",
+    "./node_modules/ng2-bs3-modal/dist/components/modal-footer.d.ts",
+    "./node_modules/ng2-bs3-modal/dist/components/modal-header.d.ts",
+    "./node_modules/ng2-bs3-modal/dist/components/modal.d.ts",
+    "./node_modules/ng2-bs3-modal/dist/ng2-bs3-modal.d.ts"
   ],
   "atom": {
     "rewriteTsconfig": true

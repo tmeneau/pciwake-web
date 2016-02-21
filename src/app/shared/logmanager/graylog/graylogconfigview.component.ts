@@ -1,13 +1,13 @@
 import { Component, Input } from 'angular2/core';
 
-import { GraylogClientConfig }        from '../model/logmanager.interface';
-import { GraylogClientConfigService } from '../service/logmanager.service';
+import { GraylogClientConfig }        from './graylog.interface';
+import { GraylogClientConfigService } from '../logmanager.service';
 
 @Component({
   selector: "logmanager-config",
-  templateUrl: 'template/html/graylogconfigview.component.html'
+  templateUrl: 'app/shared/logmanager/graylog/graylogconfigview.component.html'
 })
-export class GraylogClientConfigView {
+export class GraylogConfigView {
   @Input() config: GraylogClientConfig;
   private editMode: boolean;
   private editError: Object;

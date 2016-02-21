@@ -8,6 +8,6 @@ import { Injectable } from 'angular2/core';
  */
 @Injectable()
 export class Config {
-  public pciwakeHost: string = "http://localhost:8080/pciwake";
+  public pciwakeHost: string = "http://localhost:8080";
   public pciwakeLoginPath: string = "/login";
 }
