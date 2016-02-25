@@ -1,0 +1,79 @@
+<div class="module">
+
+  <div class="alert alert-danger" *ngIf="editError != null">
+    <strong>Error!</strong> {{ editError }}
+  </div>
+
+
+  <table *ngIf="!editMode && entity" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Query Configuration</th>
+        <th>
+          <button class="btn btn-default" (click)="edit()">edit</button>
+          <button class="btn btn-danger"
+                  *ngIf="entity.id != null"
+                  (click)="delete($event)">delete</button>
+        </th>
+      </tr>
+    </thead>
+
+    <tr>
+      <td class="col-md-2">id:</td>
+      <td class="col-md-10">{{ entity.id }}</td>
+    </tr>
+
+    <tr>
+      <td class="col-md-2">name:</td>
+      <td class="col-md-10">{{ entity.name }}</td>
+    </tr>
+
+    <tr>
+      <td class="col-md-2">query string:</td>
+      <td class="col-md-10">{{ entity.queryString }}</td>
+    </tr>
+  </table>
+
+
+  <div *ngIf="editMode && entity">
+    <form role="form"
+          (submit)="save($event)">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Query Configuration</th>
+            <th>
+              <button class="btn btn-default" type="submit">
+                <span *ngIf="entity.id != null">Save</span>
+                <span *ngIf="entity.id == null">Create</span>
+              </button>
+              <button class="btn btn-default" (click)="view($event)">Cancel</button>
+            </th>
+          </tr>
+        </thead>
+
+        <tr>
+          <td class="col-md-2">id:</td>
+          <td class="col-md-10">{{ entity.id }}</td>
+        </tr>
+
+        <tr>
+          <td class="col-md-2">name:</td>
+          <td class="col-md-4">
+            <input class="form-control input-sm"
+                   [(ngModel)]="entity.name"
+                   type="text" />
+          </td>
+        </tr>
+        <tr>
+          <td class="col-md-2">query string:</td>
+          <td class="col-md-4">
+            <input class="form-control input-sm"
+                   [(ngModel)]="entity.queryString"
+                   type="text" />
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>

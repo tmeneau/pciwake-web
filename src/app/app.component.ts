@@ -1,14 +1,18 @@
 import { Component, ViewChild }       from 'angular2/core';
 import { RouteConfig,
+         Router,
          ROUTER_DIRECTIVES,
          ROUTER_PROVIDERS,
          Location }                   from 'angular2/router';
 import { Http, HTTP_PROVIDERS }       from 'angular2/http'
 
 import { DashboardComponent }         from './components/dashboard/dashboard.component'
+import { LogreviewJobConfigWizardComponent } from './components/review-job-config-wizard/wizard.component';
 
-import { GraylogManagerConfigs }      from './shared/logmanager/managerconfigs.component';
-import { GraylogClientConfigService } from './shared/logmanager/logmanager.service';
+import { LogReviewConfigurationsEditor }  from './components/config-editor/configeditor.component';
+import { GraylogConfigService }       from './shared/logmanager/graylog/graylogclientconfig.service';
+import { GraylogQueryService }        from './shared/logmanager/graylog/graylogqueryconfig.service';
+import { ConnectionConfigService }    from './shared/logmanager/connectionconfig.service';
 
 import { AuthenticationService }      from './shared/auth/auth.service';
 import { LoginForm }                  from './shared/auth/login.component';
@@ -21,9 +25,10 @@ import { Config }                     from './shared/config/config.service';
   selector: 'pciwake',
   directives: [ROUTER_DIRECTIVES, LoginForm],
   providers: [
-    ROUTER_PROVIDERS,
     Config,
-    GraylogClientConfigService,
+    GraylogConfigService,
+    GraylogQueryService,
+    ConnectionConfigService,
     AuthenticationService,
     APIRequestOptions
   ],
@@ -37,21 +42,22 @@ import { Config }                     from './shared/config/config.service';
     useAsDefault: true
   },
   {
-    path: "/logmanager",
-    name: "Log Manager",
-    component: GraylogManagerConfigs
+    path: "/config-editor/...",
+    name: "Configurations Editor",
+    component: LogReviewConfigurationsEditor
+  },
+  {
+    path: "/wizard/...",
+    name: "Log Review Wizard",
+    component: LogreviewJobConfigWizardComponent
   }
 ])
 export class App {
   @ViewChild(LoginForm) loginForm: LoginForm;
 
   constructor(private _location: Location,
+              private _router: Router,
               public authService: AuthenticationService) {}
-
-  // true on a path match, false for the rest
-  isActive(path) {
-    return this._location.path().indexOf(path) > -1;
-  }
 
   login(event?) {
     if (event) {

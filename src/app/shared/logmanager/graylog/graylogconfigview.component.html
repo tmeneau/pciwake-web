@@ -1,14 +1,17 @@
-<div class="container">
-  <h4>Log Manager Client Configuration</h4>
+<div class="module" *ngIf="entity">
 
-  <table *ngIf="!editMode" class="table table-striped">
+  <div class="alert alert-danger" *ngIf="editError != null">
+    <strong>Error!</strong> {{ editError }}
+  </div>
+
+  <table *ngIf="!editMode && entity" class="table table-striped">
     <thead>
       <tr>
         <th>Client Configuration</th>
         <th>
           <button class="btn btn-default" (click)="edit()">edit</button>
           <button class="btn btn-danger"
-                  *ngIf="config.id != null"
+                  *ngIf="entity.id != null"
                   (click)="delete($event)">delete</button>
         </th>
       </tr>
@@ -16,22 +19,30 @@
 
     <tr>
       <td class="col-md-2">id:</td>
-      <td class="col-md-10">{{ config.id }}</td>
+      <td class="col-md-10">{{ entity.id }}</td>
     </tr>
-
     <tr>
       <td class="col-md-2">name:</td>
-      <td class="col-md-10">{{ config.name }}</td>
+      <td class="col-md-10">{{ entity.name }}</td>
     </tr>
 
     <tr>
       <td class="col-md-2">web host:</td>
-      <td class="col-md-10">{{ config.webHost }}</td>
+      <td class="col-md-10">{{ entity.webHost }}</td>
+    </tr>
+
+    <tr>
+      <td class="col-md-2">connection:</td>
+      <td class="col-md-10">{{ entity.connectionConfig?.name }}</td>
+    </tr>
+
+    <tr>
+      <td class="col-md-2">query config:</td>
+      <td class="col-md-10">{{ entity.queryConfig?.name }}</td>
     </tr>
   </table>
 
-  <div *ngIf="editMode" class="table table-striped">
-    <h5>Edit Client Configuration -- {{ config.name || "(no name configured)" }}</h5>
+  <div *ngIf="editMode && entity">
 
     <form role="form"
           (submit)="save($event)">
@@ -39,10 +50,10 @@
         <thead>
           <tr>
             <th>Client Configuration</th>
-            <th>
+            <th colspan="2">
               <button class="btn btn-default" type="submit">
-                <span *ngIf="config.id != null">Save</span>
-                <span *ngIf="config.id == null">Create</span>
+                <span *ngIf="entity.id != null">Save</span>
+                <span *ngIf="entity.id == null">Create</span>
               </button>
               <button class="btn btn-default" (click)="view($event)">Cancel</button>
             </th>
@@ -51,72 +62,111 @@
 
         <tr>
           <td class="col-md-2">id:</td>
-          <td class="col-md-10">{{ config.id }}</td>
+          <td class="col-md-4">{{ entity.id }}</td>
+          <td class="col-md-6"></td>
         </tr>
 
         <tr>
           <td class="col-md-2">name:</td>
           <td class="col-md-4">
-            <input class="form-control"
-                   [(ngModel)]="config.name"
+            <input class="form-control input-sm"
+                   [(ngModel)]="entity.name"
                    type="text" />
           </td>
+          <td class="col-md-6"></td>
         </tr>
         <tr>
           <td class="col-md-2">web host:</td>
           <td class="col-md-4">
-            <input class="form-control"
-                   [(ngModel)]="config.webHost"
+            <input class="form-control input-sm"
+                   [(ngModel)]="entity.webHost"
                    type="text" />
+          </td>
+          <td class="col-md-6"></td>
+        </tr>
+        <tr>
+          <td class="col-md-2">connection:</td>
+          <td class="col-md-4">{{ entity.connectionConfig?.name }}</td>
+          <td class="col-md-6">
+            <div class="btn btn-default"
+                    (click)="selectConnectionConfigModal.open('lg')">
+              <span *ngIf="entity.connectionConfig.id != null">Change</span>
+              <span *ngIf="entity.connectionConfig.id == null">Select</span>
+            </div>
+
+            <div class="btn btn-default"
+                    (click)="editConnectionConfigModal.open('lg')">Edit</div>
+          </td>
+        </tr>
+        <tr>
+          <td class="col-md-2">query config:</td>
+          <td class="col-md-4">{{ entity.queryConfig?.name }}</td>
+          <td class="col-md-6">
+            <div class="btn btn-default"
+                    (click)="selectQueryConfigModal.open('lg')">
+              <span *ngIf="entity.queryConfig.id != null">Change</span>
+              <span *ngIf="entity.queryConfig.id == null">Select</span>
+            </div>
+            <div class="btn btn-default"
+                    (click)="editQueryConfigModal.open('lg')">Edit</div>
           </td>
         </tr>
       </table>
     </form>
   </div>
 
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th colspan="2">Query Configuration</th>
-      </tr>
-    </thead>
 
-    <tr>
-      <td class="col-md-2">id:</td>
-      <td class="col-md-10">{{ config.queryConfig?.id }}</td>
-    </tr>
+  <modal #editQueryConfigModal>
+    <modal-header [show-close]="true">Edit/Create Query Config</modal-header>
+    <modal-body>
+      <graylog-query-config #queryView
+                            [entity]="entity.queryConfig"
+                            [editMode]="entity.queryConfig.id != null"></graylog-query-config>
+    </modal-body>
+    <modal-footer>
+      <div class="text-center">
+        <button class="btn btn-default"
+                (click)="editQueryConfigModal.close()">
+          Done
+        </button>
+      </div>
+    </modal-footer>
+  </modal>
 
-    <tr>
-      <td class="col-md-2">query string:</td>
-      <td class="col-md-10">{{ config.queryConfig?.queryString }}</td>
-    </tr>
-  </table>
+  <modal #selectQueryConfigModal>
+    <modal-header [show-close]="true">Select Query Config</modal-header>
+    <modal-body>
+      <graylog-query-config-selector #querySelector
+                                     [entity]="entity.queryConfig">
+      </graylog-query-config-selector>
+    </modal-body>
+  </modal>
 
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th colspan="2">Connection Configuration</th>
-      </tr>
-    </thead>
-    <tr>
-      <td class="col-md-2">id:</td>
-      <td class="col-md-10">{{ config.connectionConfig?.id }}</td>
-    </tr>
 
-    <tr>
-      <td class="col-md-2">host:</td>
-      <td class="col-md-10">{{ config.connectionConfig?.host }}</td>
-    </tr>
+  <modal #editConnectionConfigModal>
+    <modal-header [show-close]="true">Edit/Create Connection Config</modal-header>
+    <modal-body>
+      <connection-config #connectionView
+                         [entity]="entity.connectionConfig"
+                         [editMode]="entity.connectionConfig.id != null"></connection-config>
+    </modal-body>
+    <modal-footer>
+      <div class="text-center">
+        <button class="btn btn-default"
+                (click)="editConnectionConfigModal.close()">
+          Done
+        </button>
+      </div>
+    </modal-footer>
+  </modal>
 
-    <tr>
-      <td class="col-md-2">username:</td>
-      <td class="col-md-10">{{ config.connectionConfig?.authContext?.username }}</td>
-    </tr>
-
-    <tr>
-      <td class="col-md-2">password:</td>
-      <td class="col-md-10">{{ config.connectionConfig?.authContext?.password }}</td>
-    </tr>
-  </table>
+  <modal #selectConnectionConfigModal>
+    <modal-header [show-close]="true">Select Connection Config</modal-header>
+    <modal-body>
+      <connection-config-selector #connectionSelector
+                                  [entity]="entity.connectionConfig">
+      </connection-config-selector>
+    </modal-body>
+  </modal>
 
 </div>

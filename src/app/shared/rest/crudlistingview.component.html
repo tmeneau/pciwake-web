@@ -1,0 +1,42 @@
+
+<div class="panel panel-default">
+  <div class="panel-heading">Select {{ context.entityTypeName() }}</div>
+  <div class="panel-body">
+    <div class="alert alert-danger" *ngIf="error != null">
+      {{ error }}
+    </div>
+    <div class="list-group"
+         *ngIf="!isLoading"
+         style="height: 235px; overflow-y:scroll;">
+      <a href="#"
+          *ngFor="#entity of entities"
+          class="list-group-item"
+          [class.active]="isActive(entity)"
+          (click)="selectEntity($event, entity)">
+        <div class="row clear">
+          <div class="col-xs-1">{{ entity.id }}</div>
+          <div class="col-xs-10">
+            {{ entity.name || "(no configured name)" }}
+          </div>
+        </div>
+      </a>
+      <a href="#" class="list-group-item"
+                  *ngIf="allowCreation"
+                  [class.active]="context.selectedEntity != null  && context.selectedEntity.id == null"
+                  (click)="createEntity($event)">
+
+        <div class="row">
+          <div class="col-xs-1"></div>
+          <div class="col-xs-11">
+            <span *ngIf="context.selectedEntity != null && context.selectedEntity.id == null">
+              {{ context.selectedEntity?.name || "(Create New " + context.entityTypeName() + ")" }}
+            </span>
+            <span *ngIf="context.selectedEntity == null || context.selectedEntity.id != null">
+              (Create New {{ context.entityTypeName()}})
+            </span>
+          </div>
+        </div>
+      </a>
+  </div>
+</div>
+</div>

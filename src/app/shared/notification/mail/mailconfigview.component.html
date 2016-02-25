@@ -1,0 +1,183 @@
+<div class="module">
+
+  <div class="alert alert-danger" *ngIf="editError != null">
+    <strong>Error!</strong> {{ editError }}
+  </div>
+
+
+  <table *ngIf="!editMode && entity" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Mail Notification Configuration</th>
+        <th>
+          <button class="btn btn-default" (click)="edit()">edit</button>
+          <button class="btn btn-danger"
+                  *ngIf="entity.id != null"
+                  (click)="delete($event)">delete</button>
+        </th>
+      </tr>
+    </thead>
+
+    <tr>
+      <td class="col-md-2">id:</td>
+      <td class="col-md-10">{{ entity.id }}</td>
+    </tr>
+
+    <tr>
+      <td class="col-md-2">name:</td>
+      <td class="col-md-10">{{ entity.name }}</td>
+    </tr>
+
+    <tr>
+      <td class="col-md-2">target addresses:</td>
+      <td class="col-md-10">{{ entity.targetAddresses }}</td>
+    </tr>
+
+    <tr>
+      <td class="col-md-2">subject template:</td>
+      <td class="col-md-10">{{ entity.subjectTemplate }}</td>
+    </tr>
+
+    <tr>
+      <td class="col-md-2">message template:</td>
+      <td class="col-md-10">{{ entity.messageTemplate }}</td>
+    </tr>
+
+    <tr>
+      <td class="col-md-2">content type:</td>
+      <td class="col-md-10">{{ entity.contentType }}</td>
+    </tr>
+
+    <tr>
+      <td class="col-md-2">smtp config:</td>
+      <td class="col-md-10">{{ entity.smtpConfig?.name }}</td>
+    </tr>
+
+  </table>
+
+  <div *ngIf="editMode && entity">
+    <form role="form"
+          (submit)="save($event)">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Mail Notification Configuration</th>
+            <th>
+              <button class="btn btn-default" type="submit">
+                <span *ngIf="entity.id != null">Save</span>
+                <span *ngIf="entity.id == null">Create</span>
+              </button>
+              <button class="btn btn-default" (click)="view($event)">Cancel</button>
+            </th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tr>
+          <td class="col-md-2">id:</td>
+          <td class="col-md-4">{{ entity.id }}</td>
+          <td class="col-md-6"></td>
+        </tr>
+
+        <tr>
+          <td class="col-md-2">name:</td>
+          <td class="col-md-4">
+            <input class="form-control input-sm"
+                   [(ngModel)]="entity.name"
+                   type="text" />
+          </td>
+          <td class="col-md-6"></td>
+        </tr>
+
+        <tr>
+          <td class="col-md-2">target addresses:</td>
+          <td class="col-md-4">
+            <input-list
+            [values]="entity.targetAddresses"></input-list>
+          </td>
+          <td class="col-md-6"></td>
+        </tr>
+
+        <tr>
+          <td class="col-md-2">subject template:</td>
+          <td class="col-md-4">
+            <input class="form-control input-sm"
+                   [(ngModel)]="entity.subjectTemplate"
+                   type="text" />
+          </td>
+          <td class="col-md-6"></td>
+        </tr>
+
+        <tr>
+          <td class="col-md-2">message template:</td>
+          <td class="col-md-4">
+            <textarea class="form-control input-sm"
+                      [(ngModel)]="entity.messageTemplate"
+                      rows="15"></textarea>
+          </td>
+          <td class="col-md-6"></td>
+        </tr>
+
+        <tr>
+          <td class="col-md-2">content type:</td>
+          <td class="col-md-4">
+            <input class="form-control input-sm"
+                   [(ngModel)]="entity.contentType"
+                   type="text" />
+          </td>
+          <td class="col-md-6"></td>
+        </tr>
+
+        <tr>
+          <td class="col-md-2">smtp config:</td>
+          <td class="col-md-4">{{ entity.smtpConfig?.name }}</td>
+          <td class="col-md-6">
+            <div class="btn btn-default" (click)="selectSmtpModal.open('lg')">
+              <span *ngIf="entity.smtpConfig.id != null">Change</span>
+              <span *ngIf="entity.smtpConfig.id == null">Select</span>
+            </div>
+            <div class="btn btn-default" (click)="editSmtpModal.open('lg')">
+              Edit
+            </div>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+
+
+  <modal #editSmtpModal>
+    <modal-header [show-close]="true">Edit/Create SMTP Config</modal-header>
+    <modal-body>
+      <smtp-config *ngIf="entity"
+                   #smtpEditor
+                   [entity]="entity.smtpConfig"
+                   (saveEntitySuccess)="entity.smtpConfig = $event"
+                   (createEntitySuccess)="entity.smtpConfig = $event">
+      </smtp-config>
+    </modal-body>
+    <modal-footer>
+      <div class="text-center">
+        <button class="btn btn-default"
+                (click)="editSmtpModal.close()">
+          Done
+        </button>
+      </div>
+    </modal-footer>
+  </modal>
+
+  <modal #selectSmtpModal>
+    <modal-header [show-close]="true">Select SMTP Config</modal-header>
+    <modal-body>
+      <smtp-config-selector *ngIf="entity"
+                            #smtpSelector
+                            [entity]="entity.smtpConfig"
+                            (canceled)="selectSmtpModal.close()"
+                            (entityChosen)="(entity.smtpConfig = $event) &&
+                                            selectSmtpModal.close() &&
+                                            entity.id &&
+                                            save()">
+      </smtp-config-selector>
+    </modal-body>
+  </modal>
+</div>

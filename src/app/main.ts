@@ -12,5 +12,6 @@ import 'rxjs/Rx'
 
 bootstrap(App,[
   HTTP_PROVIDERS,
+  ROUTER_PROVIDERS,
   provide(RequestOptions, {useClass: APIRequestOptions})
 ]);

@@ -30,15 +30,28 @@ gulp.task('copy:libs', ['clean:libs'], function() {
         'node_modules/angular2/bundles/angular2.dev.js',
         'node_modules/angular2/bundles/router.dev.js',
         'node_modules/angular2/bundles/http.dev.js',
+        'node_modules/jquery/dist/jquery.min.js',
+        'node_modules/bootstrap/dist/js/bootstrap.min.js',
+        'node_modules/bootstrap/dist/css/bootstrap.min.css',
+        'node_modules/ng2-bootstrap/bundles/ng2-bootstrap.min.js',
         'node_modules/ng2-bootstrap/node_modules/moment/min/moment.min.js'])
       .pipe(gulp.dest('dist/assets/libs'));
+
+  /*
+   * bootstrap fonts
+   */
+  gulp.src(['node_modules/bootstrap/dist/fonts/**.*'])
+      .pipe(gulp.dest('dist/assets/fonts'));
 
    /*
     * ng2-bs3-modal doesn't declare a module name in it's export, so we do
     * a mildly hacky thing here. It's a small evil for the big tradeoff of
     * false-negative-free typescript compilation
     */
-    return gulp.src(['node_modules/ng2-bs3-modal/dist/**/*.js'])
+    return gulp.src([
+                  'node_modules/ng2-bs3-modal/dist/**/*.js',
+                  'node_modules/ng2-bs3-modal/dist/**/*.js.map'
+               ])
                .pipe(gulp.dest('dist/assets/libs/ng2-bs3-modal/dist'));
 });
 
@@ -110,6 +123,7 @@ gulp.task('default', ['build']);
  */
 
 gulp.task('watch', function() {
+  gulp.watch(['./package.json', './tsconfig.js', './gulpfile.js', 'src/index.html'], ['build']);
   gulp.watch(PATHS.ASSETS, ['copy:assets']);
   gulp.watch(PATHS.TS,     ['compile']);
 });

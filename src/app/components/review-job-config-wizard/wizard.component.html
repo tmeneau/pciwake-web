@@ -1,0 +1,22 @@
+<div class="module container">
+  <h3>Create a new Log Review</h3>
+
+  <p>Use the tabs below to create and schedule a new log review</p>
+
+  <ul class="nav nav-tabs">
+    <li [class.active]="_router.isRouteActive(_router.generate(['Manager']))">
+      <a [routerLink]="['Manager']">Step 1. Log Manager</a>
+    </li>
+    <li [class.active]="_router.isRouteActive(_router.generate(['Notification']))">
+      <a [routerLink]="['Notification']">Step 2. Notifications</a>
+    </li>
+    <li [class.active]="_router.isRouteActive(_router.generate(['Fail Strategy']))">
+      <a [routerLink]="['Fail Strategy']">Step 3. Failure Strategy</a>
+    </li>
+    <li [class.active]="_router.isRouteActive(_router.generate(['Job Config']))">
+      <a [routerLink]="['Job Config']">Step 4. Schedule</a>
+    </li>
+  </ul>
+
+  <router-outlet></router-outlet>
+</div>

@@ -1,12 +1,12 @@
-import { Deserializable }             from '../../util/deserializable';
 import { LogManagerClientConfig,
+         QueryConfig,
          ConnectionConfig }           from '../logmanager.interface';
 
-export class GraylogQueryConfig implements Deserializable<GraylogQueryConfig> {
-  public id: number;
+export class GraylogQueryConfig extends QueryConfig {
   public queryString: string;
 
   fromJson(json: Object): GraylogQueryConfig {
+    super.fromJson(json);
     this.id = json['id'];
     this.queryString = json['queryString'];
     return this;
@@ -14,10 +14,6 @@ export class GraylogQueryConfig implements Deserializable<GraylogQueryConfig> {
 }
 
 export class GraylogClientConfig extends LogManagerClientConfig<GraylogQueryConfig> {
-  public id: number;
-  public name: string;
-  public connectionConfig: ConnectionConfig;
-  public queryConfig: GraylogQueryConfig;
   public webHost: string;
   _class: string = "com.xetus.pci.wake.manager.graylog.GraylogClientConfig";
 

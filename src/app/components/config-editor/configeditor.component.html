@@ -1,0 +1,33 @@
+<div class="module">
+
+  <div class="row">
+
+    <!-- left-hand navigation pills -->
+    <div class="col-md-3">
+      <div class="panel panel-default">
+        <div class="panel-heading">Configuration Types</div>
+        <div class="panel-body">
+
+          <ul class="nav nav-pills nav-stacked">
+          <li [class.active]="_router.isRouteActive(_router.generate(['Manager']))">
+            <a [routerLink]="['Manager']">Log Manager Clients</a>
+          </li>
+            <li [class.active]="_router.isRouteActive(_router.generate(['Connection']))">
+              <a [routerLink]="['Connection']">Log Manager Connections</a>
+            </li>
+            <li [class.active]="_router.isRouteActive(_router.generate(['Query', { id: ''}]))">
+              <a [routerLink]="['Query', { id: '' }]">Log Manager Queries</a>
+            </li>
+            <li [class.active]="_router.isRouteActive(_router.generate(['Mail']))">
+              <a [routerLink]="['Mail']">Notification Queries</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-9">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,7 @@
-import { Component, ViewChild }       from "angular2/core";
+import { Component,
+         ViewChild,
+         Output,
+         EventEmitter }               from "angular2/core";
 import { ControlGroup,
          FormBuilder,
          Validators }                 from 'angular2/common';
@@ -20,6 +23,13 @@ export class LoginForm {
   private success: string;
   private _loggingOut: boolean = false;
 
+  private _username: String
+  private _password: String;
+
+  @Output() loginSuccess = new EventEmitter();
+  @Output() loginFailure = new EventEmitter();
+  @Output() logoutSuccess = new EventEmitter();
+
   @ViewChild(ModalComponent) modal: ModalComponent;
   constructor(private fb: FormBuilder,
               private _router: Router,
@@ -31,28 +41,31 @@ export class LoginForm {
   }
 
   private _clearLoginForm(): void {
-    for (var key in this.loginForm.controls) {
-      this.loginForm.controls[key].value = "";
-    }
+    this._username = null;
+    this._password = null;
   }
 
   open() {
-    this.modal.open('sm');
+    this.modal.open('md');
   }
 
   login() {
     this.authService.authenticate(
-      this.loginForm.value.username,
-      this.loginForm.value.password
+      this._username,
+      this._password
     ).subscribe(
       data => {
         this.error = null;
         this.success = data.message;
+        this.loginSuccess.emit(null);
         this._clearLoginForm();
         this.modal.close();
         setTimeout(() => this.success = null, 500);
       },
-      err => this.error = err.message
+      err => {
+        this.loginFailure.emit(err.message);
+        this.error = err.message;
+      }
     );
   }
 
@@ -61,9 +74,10 @@ export class LoginForm {
     this.modal.open();
     this.authService.destroySession().subscribe(
       () => {
-        this.modal.close()
-        setTimeout(() => this._loggingOut = false, 500)
-        this._router.navigate(['Home'])
+        this.logoutSuccess.emit(null);
+        this.modal.close();
+        this._router.navigate(['Home']);
+        setTimeout(() => this._loggingOut = false, 500);
       }
     );
 

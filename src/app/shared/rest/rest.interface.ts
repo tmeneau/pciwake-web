@@ -1,6 +1,8 @@
 import { Response }   from 'angular2/http';
 
-export class RestResult<T> {
+import { Deserializable } from '../util/deserializable';
+
+ export class RestResult<T> {
   constructor(data?: T, message?: string, response?: Response) {
     this.data = data;
     this.message = message;
@@ -9,4 +11,8 @@ export class RestResult<T> {
   data: T;
   message: string;
   response: Response;
+}
+
+export interface PersistentEntity<T> extends Deserializable<T> {
+  id: number;
 }

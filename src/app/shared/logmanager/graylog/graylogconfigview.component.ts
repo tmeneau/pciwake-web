@@ -1,69 +1,118 @@
-import { Component, Input } from 'angular2/core';
+import { Component,
+         Input,
+         ViewChild,
+         AfterViewChecked }              from 'angular2/core';
+
+import { Observable }                 from 'rxjs/Rx';
+
+import { MODAL_DIRECTIVES,
+         ModalComponent }             from 'ng2-bs3-modal/dist/ng2-bs3-modal';
+
+import { AbstractCrudView }           from '../../rest/crudview.component';
 
 import { GraylogClientConfig }        from './graylog.interface';
-import { GraylogClientConfigService } from '../logmanager.service';
+import { GraylogConfigService }       from './graylogclientconfig.service';
+import { GraylogQueryView }           from './graylogqueryconfig.component';
+import { GraylogQueryConfigSelector } from './graylogqueryconfigselector.component';
+import { ConnectionConfigView }       from '../connectionconfig.component';
+import { ConnectionConfigSelector }   from '../connectionconfigselector.component';
 
 @Component({
-  selector: "logmanager-config",
-  templateUrl: 'app/shared/logmanager/graylog/graylogconfigview.component.html'
+  selector: "graylog-config",
+  templateUrl: 'app/shared/logmanager/graylog/graylogconfigview.component.html',
+  directives: [
+    MODAL_DIRECTIVES,
+    GraylogQueryView,
+    ConnectionConfigView,
+    GraylogQueryConfigSelector,
+    ConnectionConfigSelector
+  ],
+  inputs: ['entity']
 })
-export class GraylogConfigView {
-  @Input() config: GraylogClientConfig;
-  private editMode: boolean;
-  private editError: Object;
+export class GraylogConfigView extends AbstractCrudView<GraylogClientConfig>
+             implements AfterViewChecked {
 
-  constructor(private _managerConfigService: GraylogClientConfigService) {}
+  private _queryViewSubscription: boolean = false;
+  private _connectionViewSubscription: boolean = false;
+  @ViewChild(GraylogQueryView) queryView: GraylogQueryView;
+  @ViewChild(ConnectionConfigView) connectionView: ConnectionConfigView;
 
+  @ViewChild(GraylogQueryConfigSelector) querySelector: GraylogQueryConfigSelector;
+  @ViewChild('selectQueryConfigModal') selectQueryConfigModal: ModalComponent;
 
-  /*
-   * TODO: add EventEmitters to track when the GraylogClientConfig object
-   * changes to add a few helpful UI-isms:
-   *
-   *    1. update coloring (or something) on the "save" button to indicate
-   *    there is unsaved data
-   *
-   *    2. possibly notify the user if they try to navigate away without
-   *    saving the object
-   */
-  edit(event?) {
-    if (event) {
-      event.preventDefault();
-    }
-    this.editMode = true;
+  @ViewChild(ConnectionConfigSelector) connectionSelector: GraylogQueryConfigSelector;
+  @ViewChild('selectConnectionConfigModal') selectConnectionConfigModal: ModalComponent;
+
+  constructor(private _crudService: GraylogConfigService) {
+    super();
   }
 
-  view(event?) {
-    if (event) {
-      event.preventDefault();
+  ngAfterViewChecked() {
+    if (!this._queryViewSubscription && this.queryView) {
+      this.queryView.createEntitySuccess.subscribe(
+        (newConfig) => this.entity.queryConfig = newConfig
+      );
+      this.queryView.saveEntitySuccess.subscribe(
+        (newConfig) => this.entity.queryConfig = newConfig
+      );
+
+      this.querySelector.entityChosen.subscribe((newConfig) => {
+        this.entity.queryConfig = newConfig
+        this.entity.id && this.save();
+        this.selectQueryConfigModal.close();
+      });
+
+      this.querySelector.canceled.subscribe((oldConfig) => {
+        this.selectQueryConfigModal.close();
+      })
+
+      this._queryViewSubscription = true;
     }
-    this.editMode = false;
+
+    if (!this._connectionViewSubscription && this.connectionView) {
+      this.connectionView.createEntitySuccess.subscribe(
+        (newConfig) => this.entity.connectionConfig = newConfig
+      );
+      this.connectionView.saveEntitySuccess.subscribe(
+        (newConfig) => this.entity.connectionConfig = newConfig
+      );
+
+      this.connectionSelector.entityChosen.subscribe((newConfig) => {
+        this.entity.connectionConfig = newConfig
+        this.entity.id && this.save();
+        this.selectConnectionConfigModal.close();
+      });
+
+      this.connectionSelector.canceled.subscribe((oldConfig) => {
+        this.selectConnectionConfigModal.close();
+      })
+
+      this._connectionViewSubscription = true;
+    }
   }
 
-  save(event?) {
-    if (event) {
-      event.preventDefault();
-    }
-
-    var success = (val) => {
-      this.config = val;
-      this.view();
-    };
-    var error = (err) => this.editError = err;
-
-    if (this.config.id == null) {
-      this._managerConfigService.createClientConfig(this.config)
-            .subscribe(success, error);
-    } else {
-      this._managerConfigService.saveClientConfig(this.config)
-            .subscribe(success, error);
-    }
+  getCrudService(): GraylogConfigService {
+    return this._crudService
   }
 
-  delete(event?) {
-    if (event) {
-      event.preventDefault();
+  save(event?): Observable<GraylogClientConfig> {
+    if (this.entity.connectionConfig == null ||
+        this.entity.connectionConfig.id == null) {
+      console.log(this.entity);
+      this.editError = "Must select (or create and save) a Connection "
+                     + "Configuration before saving";
+      return null;
     }
-    console.log("delete config: ", this.config);
-    this._managerConfigService.deleteClientConfig(this.config);
+
+    if (this.entity.queryConfig == null ||
+        this.entity.queryConfig.id == null) {
+      console.log(this.entity);
+      this.editError = "Must select (or create and save) a Graylog Query "
+                     + "Configuration before saving";
+      return null;
+    }
+    let observable = super.save(event);
+    return observable;
   }
+
 }

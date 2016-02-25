@@ -1,0 +1,19 @@
+<div class="module container">
+  <h5>Step 2: Select or Create Notifications</h5>
+
+  <p>TODO: ...</p>
+
+  <ul class="nav nav-tabs">
+    <li [class.active]="_router.isRouteActive(_router.generate(['No Incident']))">
+      <a [routerLink]="['No Incident']">"No Incident Found" Notifications</a>
+    </li>
+    <li [class.active]="_router.isRouteActive(_router.generate(['Incident']))">
+      <a [routerLink]="['Incident']">"Incident Found" Notifications</a>
+    </li>
+    <li [class.active]="_router.isRouteActive(_router.generate(['Resolved']))">
+      <a [routerLink]="['Resolved']">"Manual Log Review Resolved" Notifications</a>
+    </li>
+  </ul>
+
+  <router-outlet></router-outlet>
+</div>

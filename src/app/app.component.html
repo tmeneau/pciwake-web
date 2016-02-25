@@ -3,11 +3,14 @@
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav" *ngIf="authService.isAuthenticated()">
-        <li [class.active]="isActive('/home')">
+        <li [class.active]="_router.isRouteActive(_router.generate(['Home']))">
           <a [routerLink]="['Home']">Home</a>
         </li>
-        <li [class.active]="isActive('/logmanager')">
-          <a [routerLink]="['Log Manager']">Log Manager</a>
+        <li [class.active]="_router.isRouteActive(_router.generate(['Configurations Editor']))">
+          <a [routerLink]="['Configurations Editor']">Configurations Editor</a>
+        </li>
+        <li [class.active]="_router.isRouteActive(_router.generate(['Log Review Wizard']))">
+          <a [routerLink]="['Log Review Wizard']">Log Review Wizard</a>
         </li>
       </ul>
 

@@ -1,0 +1,11 @@
+<div class="text-center" *ngIf="isLoading">Loading...</div>
+
+<div style="min-height: 250px;" class="panel panel-default">
+  <div class="panel-heading">Selected Connection Config</div>
+  <div class="panel-body">
+    <mail-config [entity]="listingContext.selectedEntity">
+    </mail-config>
+  </div>
+</div>
+
+<crud-listing-selector [context]="listingContext"></crud-listing-selector>

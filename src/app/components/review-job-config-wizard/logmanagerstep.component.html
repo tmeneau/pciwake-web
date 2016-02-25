@@ -1,0 +1,24 @@
+<div class="module container">
+  <h5>Step 1: Select or Create a New Log Manager Configuration</h5>
+
+  <p>A PCI Wake automated log review requires the connection, authentication,
+    and query configuration for a log manager instance to be able to determine
+    whether or not any incidents need manual attention. The first step to
+    scheduling a log review is to configure the parameters that the log review
+    execution should use to connect to and query the log manager instance.</p>
+
+  <p>In this section, you will specifically be:</p>
+
+  <ul>
+    <li>configuring how to connect to a Log Manager instance, including any
+    authentication credentials</li>
+    <li>configuring the query that should be executed against the log Manager
+      instance</li>
+  </ul>
+
+  <i>Note that you can schedule multiple log reviews using the same connection
+    information</i>
+
+  <graylog-config [entity]="_context.jobConfig.logmanager"
+                  [editMode]="true"></graylog-config>
+</div>

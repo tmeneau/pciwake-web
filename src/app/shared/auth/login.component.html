@@ -22,16 +22,16 @@
           <div class="form-group">
             <label for="username">Username</label>
             <input class="form-control"
-                   id="username"
                    ngControl="username"
+                   [(ngModel)]="_username"
                    type="text"
                    placeholder="Your username" />
           </div>
           <div class="form-group">
             <label for="password">Password</label>
             <input class="form-control"
-                   id="password"
                    ngControl="password"
+                   [(ngModel)]="_password"
                    type="password"
                    placeholder="Your password" />
           </div>

@@ -1,0 +1,35 @@
+<div class="text-center" *ngIf="isLoading">Loading...</div>
+
+<div class="row">
+  <div class="col-xs-4">
+    <crud-listing-selector [context]="listingContext"></crud-listing-selector>
+  </div>
+
+
+  <div class="col-xs-8">
+    <div style="min-height: 250px;" class="panel panel-default">
+      <div class="panel-heading">Selected Smtp Config</div>
+      <div class="panel-body">
+        <smtp-config [entity]="listingContext.selectedEntity">
+        </smtp-config>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-6 text-center">
+    <button *ngIf="listingContext.selectedEntity"
+            class="btn btn-primary"
+            (click)="entityChosen.next(listingContext.selectedEntity)">
+      Done
+    </button>
+  </div>
+
+  <div class="col-xs-6 text-center">
+    <button class="btn btn-default"
+            (click)="cancel()">
+      Cancel
+    </button>
+  </div>
+</div>

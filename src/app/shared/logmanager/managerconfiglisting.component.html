@@ -1,0 +1,10 @@
+<div class="text-center" *ngIf="isLoading">Loading...</div>
+
+<div style="min-height: 325px;" class="panel panel-default">
+  <div class="panel-heading">Selected Manager</div>
+  <div class="panel-body">
+    <graylog-config [entity]="listingContext.selectedEntity"></graylog-config>
+  </div>
+</div>
+
+<crud-listing-selector [context]="listingContext"></crud-listing-selector>
