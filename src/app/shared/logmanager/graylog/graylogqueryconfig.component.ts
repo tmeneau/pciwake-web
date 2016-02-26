@@ -1,7 +1,5 @@
 import { Component }                  from 'angular2/core';
 
-import { Observable }                 from 'rxjs/Rx';
-
 import { GraylogQueryConfig }         from './graylog.interface';
 import { GraylogQueryService }        from './graylogqueryconfig.service';
 

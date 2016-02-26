@@ -1,7 +1,5 @@
 import { Component }                  from 'angular2/core';
 
-import { Observable }                 from 'rxjs/Rx';
-
 import { ConnectionConfig }           from './logmanager.interface';
 import { ConnectionConfigService }    from './connectionconfig.service';
 
