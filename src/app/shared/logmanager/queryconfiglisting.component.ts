@@ -42,7 +42,7 @@ export class GraylogQueryConfigListingContext
   templateUrl: 'app/shared/logmanager/queryconfiglisting.component.html'
 })
 export class QueryConfigListing extends CrudListingView<GraylogQueryConfig> {
-  constructor(protected listingContext: GraylogQueryConfigListingContext,
+  constructor(public listingContext: GraylogQueryConfigListingContext,
               routeParams?: RouteParams) {
     super(listingContext, routeParams && routeParams.get("id"));
   }

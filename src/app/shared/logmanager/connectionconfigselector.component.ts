@@ -27,7 +27,7 @@ export class ConnectionConfigSelector extends ConnectionConfigListing
   @Output() entityChosen: EventEmitter<ConnectionConfig> = new EventEmitter<ConnectionConfig>();
   @Output() canceled: EventEmitter<ConnectionConfig> = new EventEmitter<ConnectionConfig>();
 
-  constructor(protected listingContext: ConnectionConfigListingContext) {
+  constructor(public listingContext: ConnectionConfigListingContext) {
     super(listingContext);
   }
 

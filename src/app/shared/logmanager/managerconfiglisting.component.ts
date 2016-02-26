@@ -37,7 +37,7 @@ export class GraylogClientConfigListingContext
   templateUrl: 'app/shared/logmanager/managerconfiglisting.component.html',
 })
 export class LogManagerConfigListing extends CrudListingView<GraylogClientConfig> {
-  constructor(protected listingContext: GraylogClientConfigListingContext) {
+  constructor(public listingContext: GraylogClientConfigListingContext) {
     super(listingContext);
   }
 }

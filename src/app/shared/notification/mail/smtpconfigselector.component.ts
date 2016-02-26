@@ -27,7 +27,7 @@ export class SmtpConfigSelector extends SmtpConfigListing
   @Output() entityChosen: EventEmitter<SmtpConfig> = new EventEmitter<SmtpConfig>();
   @Output() canceled: EventEmitter<SmtpConfig> = new EventEmitter<SmtpConfig>();
 
-  constructor(protected listingContext: SmtpConfigListingContext) {
+  constructor(public listingContext: SmtpConfigListingContext) {
     super(listingContext);
   }
 

@@ -37,7 +37,7 @@ export class ConnectionConfigListingContext
   templateUrl: 'app/shared/logmanager/connectionconfiglisting.component.html',
 })
 export class ConnectionConfigListing extends CrudListingView<ConnectionConfig> {
-  constructor(protected listingContext: ConnectionConfigListingContext) {
+  constructor(public listingContext: ConnectionConfigListingContext) {
     super(listingContext);
   }
 }

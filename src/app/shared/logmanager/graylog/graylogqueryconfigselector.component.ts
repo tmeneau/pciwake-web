@@ -27,7 +27,7 @@ export class GraylogQueryConfigSelector extends QueryConfigListing
   @Output() entityChosen: EventEmitter<GraylogQueryConfig> = new EventEmitter<GraylogQueryConfig>();
   @Output() canceled: EventEmitter<GraylogQueryConfig> = new EventEmitter<GraylogQueryConfig>();
 
-  constructor(protected listingContext: GraylogQueryConfigListingContext) {
+  constructor(public listingContext: GraylogQueryConfigListingContext) {
     super(listingContext);
   }
 

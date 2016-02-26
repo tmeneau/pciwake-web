@@ -27,7 +27,7 @@ export abstract class CrudListingView<T extends PersistentEntity<any>>
   @ViewChild(CrudListingSelector) listingSelector: CrudListingSelector<T>;
   @ViewChild(AbstractCrudView) crudView: AbstractCrudView<T>;
 
-  constructor(protected listingContext: AbstractCrudListingViewContext<T>,
+  constructor(public listingContext: AbstractCrudListingViewContext<T>,
               protected startId?) {}
 
   ngAfterViewChecked() {

@@ -36,7 +36,7 @@ export class SmtpConfigListingContext
   templateUrl: 'app/shared/notification/smtp/smtpconfiglisting.component.html',
 })
 export class SmtpConfigListing extends CrudListingView<SmtpConfig> {
-  constructor(protected listingContext: SmtpConfigListingContext) {
+  constructor(public listingContext: SmtpConfigListingContext) {
     super(listingContext);
   }
 }
