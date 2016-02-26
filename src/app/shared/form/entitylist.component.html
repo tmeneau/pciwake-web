@@ -1,0 +1,51 @@
+<div class="row" *ngFor="#entity of entities; #i=index">
+  <div class="col-xs-12" style="margin-bottom: 15px;">
+    <div class="input-group">
+      <input [(ngModel)]="entity.name"
+             *ngIf="entity"
+             class="form-control input-sm"
+             disabled
+             type="text">
+      <input *ngIf="!entity"
+             class="form-control input-sm"
+             disabled
+             type="text"
+             value='(click "Select" to select a new entity)'>
+      <div class="input-group-btn">
+        <button type="button"
+                class="btn btn-primary btn-sm"
+                (click)="select(i)">
+          <span *ngIf="!entity">Select</span>
+          <span *ngIf="entity">Change</span>
+        </button>
+        <button type="button"
+                class="btn btn-danger btn-sm"
+                (click)="removeEntity(i)">
+          <span>X</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12" style="margin-bottom: 15px;">
+    <div class="input-group">
+      <input class="form-control input-sm"
+             disabled
+             type="text">
+      <div class="input-group-btn">
+        <button type="button"
+                class="btn btn-primary btn-sm"
+                (click)="addNew()">
+          <span>+</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<modal #newEntityModal>
+  <modal-header>Select New Entity</modal-header>
+  <modal-body><ng-content></ng-content></modal-body>
+</modal>
